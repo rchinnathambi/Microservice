@@ -1,0 +1,65 @@
+server:
+  port: 9191
+  
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: USER-SERVICE
+#                fallbackuri: forward:/userServiceFallBack
+        - id: DEPARTMENT-SERVICE
+          uri: lb://DEPARTMENT-SERVICE
+          predicates:
+            - Path=/departments/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: DEPARTMENT-SERVICE
+#                fallbackuri: forward:/departmentServiceFallBack
+                
+#resilence4j:
+#  circuitbreaker:
+#    instances:
+#      USER-SERVICE:
+#        registerHealtherIndicator: true
+#        eventConsumerBufferSize: 10
+#        automaticTransitionFromOpenToHalfOpenEnabled: true
+#        failureRateThresholds: 50
+#        minimumNumberOfCalls: 5
+#        permittedNumberOfCallsInHalfOpenState: 3
+#        slidingWindowSize: 10
+#        waitDurationInOpenState: 5s
+#        slidingWindowType: COUNT_BASED
+#
+#
+#management:
+#  health:
+#    circuitbreakers:
+#      enabled: true
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#  endpoint:
+#    health:
+#      show-details: always
+
+
+#Eureka config commented - as config picked from Cloud Config from GITHUB
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-uri:
+#      defaultZone: http://localhost:8761/eureka/
+#  instance:
+#    hostname: localhost
