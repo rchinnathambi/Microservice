@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.rchinnat</groupId>
 	<artifactId>department-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>DepartmentService</name>
 	<description>Microservices demo - Department Service</description>
 	<properties>
@@ -88,6 +88,38 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.13</version> <!-- 1.4.13 -->
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<repository>rajprakashcr/department-service</repository>
+					<tag>${project.version}</tag>
+					<buildArgs>
+				      <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+				    </buildArgs>
+					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
+				</configuration>
+				<dependencies>
+					<!-- To make this work with JDK 9+ 
+					<dependency>
+						<groupId>javax.activation</groupId>
+						<artifactId>javax.activation-api</artifactId>
+						<version>1.2.0</version>
+					</dependency>
+					-->
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
